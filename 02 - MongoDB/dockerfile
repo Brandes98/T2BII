@@ -1,21 +1,11 @@
-FROM python:3.12.2
-
-
-ENV DB_HOST='localhost'
-ENV DB_PORT=5432
-ENV DB_NAME='flask_restapi'
-ENV DB_USER='flask_restapi'
-ENV DB_PASSWORD='flask_restapi_pass'
+FROM python:3.8
 
 WORKDIR /opt/app
 
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install confluent_kafka
+RUN pip install kafka-python
 COPY . .
 
-RUN pip install poetry
-RUN poetry install
-
-VOLUME /data_store
-EXPOSE 5000
-
-# Command "python3 -m flask run --host=0.0.0.0"
-CMD ["poetry", "run", "python3", "-m", "flask", "run", "--host=0.0.0.0"]
+CMD ["python3", "./producer.py"]
