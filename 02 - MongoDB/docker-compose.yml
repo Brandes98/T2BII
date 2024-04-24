@@ -2,31 +2,6 @@
 version: '3.8'
 
 services:
-  app:
-    build: .
-    environment:
-      DB_HOST: mongodb
-      DB_PORT: 27017
-      DB_NAME: encuestas
-      DB_USER: postgres
-      DB_PASSWORD: mysecretpassword
-      MONGO_INITDB_ROOT_USERNAME: mongoadmin
-      MONGO_INITDB_ROOT_PASSWORD: mongosecret
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      KAFKA_BROKER: kafka-broker-1:9092
-    ports:
-      - "5002:5000"
-    depends_on:
-      - zookeeper
-      - mongodb
-      - kafka-broker-1
-    volumes:
-      - .:/opt/app
-    command: poetry run python3 -m flask run --host=0.0.0.0 --port=5000
-    networks:
-      - web
-
   mongodb:
     image: mongo:4.4
     container_name: mongodb
@@ -63,12 +38,10 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - "2181:2181"
-    networks:
-      - web
+      - 2181:2181
 
   kafka-broker-1:
-    image: apache/kafka:latest
+    image: confluentinc/cp-kafka:latest
     container_name: kafka-broker-1
     depends_on:
       - zookeeper
@@ -82,8 +55,6 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
     ports:
       - "9092:9092"
-    networks:
-      - web
 
 networks:
   web:
