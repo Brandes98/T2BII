@@ -1,13 +1,14 @@
 import json
+import os
 from kafka import KafkaProducer
 from datetime import datetime
 from time import sleep
 from random import choice
+import os
+topic = os.getenv("TOPIC")
+server = os.getenv("SERVER")
 
-kafkaServer = 'localhost:9092'
-topic = 'mensajesTC2'
-producer = KafkaProducer(bootstrap_servers=kafkaServer, value_serializer=lambda v: json.dumps(v).encode('utf-8'))
-
+producer = KafkaProducer(bootstrap_servers=server, value_serializer=lambda v: json.dumps(v).encode('utf-8'))
 randomValues = [1, 2, 3, 4, 5, 6, 7]
 while True:
     randomValues = choice(randomValues)

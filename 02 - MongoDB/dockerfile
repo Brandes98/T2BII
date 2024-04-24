@@ -4,9 +4,9 @@ WORKDIR /opt/app
 
 COPY requirements.txt ./
 
-#RUN pip install requirements.txt
-RUN pip install confluent_kafka
-RUN pip install kafka-python
+RUN pip install -r requirements.txt
+#RUN pip install confluent_kafka
+#RUN pip install kafka-python
 COPY . .
 
 CMD ["python3", "producer.py"]
