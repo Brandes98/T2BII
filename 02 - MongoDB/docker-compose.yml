@@ -68,7 +68,7 @@ services:
       - web
 
   kafka-broker-1:
-    image: confluentinc/cp-kafka:latest
+    image: apache/kafka:latest
     container_name: kafka-broker-1
     depends_on:
       - zookeeper
